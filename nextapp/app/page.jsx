@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import Dropzone from 'react-dropzone';
-import axios from 'axios';
 
 const ImageUploader = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -11,11 +10,11 @@ const ImageUploader = () => {
   const handleFileDrop = (acceptedFiles) => {
     const file = acceptedFiles[0];
     setSelectedFile(file);
+    setProcessedImage(null);
   };
 
-  const handleUpload = async () => {
+  const handleGenerateBackgroundRemoval = async () => {
     if (!selectedFile) {
-      alert('Please select an image first.');
       return;
     }
 
@@ -23,16 +22,19 @@ const ImageUploader = () => {
     formData.append('image', selectedFile);
 
     try {
-      const response = await axios.post('/api/backgroundRemoval', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+      const response = await fetch('http://loaclhost:5050/process-image', {
+        method: 'POST',
+        body: formData,
       });
 
-      // Assuming the API response contains the processed image as a base64 string
-      setProcessedImage(`data:image/png;base64,${response.data.base64Image}`);
+      if (response.ok) {
+        const imageUrl = URL.createObjectURL(await response.blob());
+        setProcessedImage(imageUrl);
+      } else {
+        console.error('Image processing failed.');
+      }
     } catch (error) {
-      console.error('Error uploading image:', error);
+      console.error('Error:', error);
     }
   };
 
@@ -40,7 +42,7 @@ const ImageUploader = () => {
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <h1 className="text-5xl text-[var(--text-color)]">Ninja Balls Background Remover</h1>
       <div>
-        <Dropzone onDrop={handleFileDrop} accept="image/*">
+        <Dropzone onDrop={handleFileDrop}>
           {({ getRootProps, getInputProps }) => (
             <div {...getRootProps()} className="dropzone">
               <input {...getInputProps()} />
@@ -52,14 +54,15 @@ const ImageUploader = () => {
         {selectedFile && (
           <div>
             <p>Selected File: {selectedFile.name}</p>
-            <button onClick={handleUpload}>Upload & Process</button>
+            <img src={URL.createObjectURL(selectedFile)} alt="Selected" width={300} height={200} />
+            <button onClick={handleGenerateBackgroundRemoval}>Generate Background Removed Image</button>
           </div>
         )}
 
         {processedImage && (
           <div>
-            <p>Processed Image:</p>
-            <img src={processedImage} alt="Processed" />
+            <p>Background Removed Image:</p>
+            <img src={processedImage} alt="Processed" width={300} height={200} />
           </div>
         )}
       </div>
