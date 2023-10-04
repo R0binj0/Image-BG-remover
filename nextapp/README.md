@@ -1,3 +1,4 @@
+<<<<<<< HEAD:nextapp/README.md
 Jakob - Figma
 
 Mikk - Figma
@@ -15,3 +16,4 @@ To run:
  -npm i next
 
  -npm run dev
+=======

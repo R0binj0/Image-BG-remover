@@ -9,7 +9,7 @@ const ImageUploader = () => {
 
   const handleFileDrop = (acceptedFiles) => {
     const file = acceptedFiles[0];
-    setSelectedFile(file);
+    setSelectedFile(file); 
     setProcessedImage(null);
   };
 
