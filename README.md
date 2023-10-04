@@ -1,4 +1,4 @@
-**CONTRIBUTORS
+##CONTRIBUTORS
 - Jakob - Figma
 - Mikk - Figma
 - Axel - HTML,CSS (Tailwind),Emotsionaalne support
