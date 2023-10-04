@@ -9,7 +9,7 @@ const ImageUploader = () => {
 
   const handleFileDrop = (acceptedFiles) => {
     const file = acceptedFiles[0];
-    setSelectedFile(file); 
+    setSelectedFile(file);
     setProcessedImage(null);
   };
 
@@ -22,7 +22,7 @@ const ImageUploader = () => {
     formData.append('image', selectedFile);
 
     try {
-      const response = await fetch('http://loaclhost:5050/process-image', {
+      const response = await fetch('http://localhost:5050/process-image', {
         method: 'POST',
         body: formData,
       });
@@ -39,34 +39,43 @@ const ImageUploader = () => {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1 className="text-5xl text-[var(--text-color)]">Ninja Balls Background Remover</h1>
-      <div>
-        <Dropzone onDrop={handleFileDrop}>
-          {({ getRootProps, getInputProps }) => (
-            <div {...getRootProps()} className="dropzone">
-              <input {...getInputProps()} />
-              <p>Drag & drop an image here, or click to select one</p>
-            </div>
-          )}
-        </Dropzone>
-
+    <div className="flex min-h-screen flex-col items-center justify-between p-24">
+      <header className="bg-green-500 text-white py-4 px-8 rounded-t-md w-screen flex justify-center items-center">
+        <h1 className="text-5xl rounded-b-md">Ninja Balls Background Remover</h1>
+      </header>
+      <div className="flex flex-col items-center">
         {selectedFile && (
-          <div>
+          <div className="mt-4">
             <p>Selected File: {selectedFile.name}</p>
             <img src={URL.createObjectURL(selectedFile)} alt="Selected" width={300} height={200} />
-            <button onClick={handleGenerateBackgroundRemoval}>Generate Background Removed Image</button>
-          </div>
-        )}
-
-        {processedImage && (
-          <div>
-            <p>Background Removed Image:</p>
-            <img src={processedImage} alt="Processed" width={300} height={200} />
+            <button
+              onClick={handleGenerateBackgroundRemoval}
+              className="mt-2 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md"
+            >
+              Generate Background Removed Image
+            </button>
           </div>
         )}
       </div>
-    </main>
+      <Dropzone onDrop={handleFileDrop}>
+        {({ getRootProps, getInputProps }) => (
+          <div
+            {...getRootProps()}
+            className="dropzone-container mt-8 mb-4 p-8 border-dashed border-4 border-gray-400 text-center cursor-pointer"
+          >
+            <input {...getInputProps()} />
+            <p className="text-lg">Drag & drop an image here, or click to select one</p>
+          </div>
+        )}
+      </Dropzone>
+
+      {processedImage && (
+        <div className="mt-4">
+          <p>Background Removed Image:</p>
+          <img src={processedImage} alt="Processed" width={300} height={200} />
+        </div>
+      )}
+    </div>
   );
 };
 
