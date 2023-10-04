@@ -1,4 +1,4 @@
-<<<<<<< HEAD:nextapp/README.md Jakob - Figma
+Jakob - Figma
 
 Mikk - Figma
 
