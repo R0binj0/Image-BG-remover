@@ -3,7 +3,19 @@
 @tailwind utilities;
 
 :root {
-  --bg-black:black;
-  --text-color:blue;
+  --bg-black: black;
+  --text-color: blue;
+  --bg-green-500: #00a86b;
+  --text-white: #fff;
+  --bg-gray-100: #f7fafc;
+  --border-dashed: dashed;
+  --border-2: 2px;
+  --border-gray-300: #e2e8f0;
+  --py-4: 1rem;
+  --px-8: 2rem;
+  --text-5xl: 3rem;
+  --mt-2: 0.5rem;
+  --py-2: 0.5rem;
+  --px-4: 1rem;
+  --hover-bg-blue-600: #2563eb;
 }
-
